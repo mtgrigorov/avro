@@ -59,18 +59,30 @@ matrix:
         - ./build.sh clean test
 
     - name: C
+      addons:
+        apt:
+          update: true
+          packages:
+            - libjansson-dev
+            - liblzma-dev
+            - libsnappy-dev
       script:
         - cd lang/c
         - ./build.sh clean test
 
     - name: C++
+      addons:
+        apt:
+          update: true
+          packages:
+            - cmake
       script:
         - cd lang/c++
         - ./build.sh clean test
 
     - name: C#
       install:
-        - sudo snap install dotnet-sdk --classic --channel=5.0
+        - sudo snap install dotnet-sdk --classic --channel=5.0/edge
         - sudo snap alias dotnet-sdk.dotnet dotnet
       before_script:
         - export DOTNET_ROOT=/snap/dotnet-sdk/current
@@ -80,7 +92,7 @@ matrix:
 
     - name: Python
       script:
-        - cd lang/python
+        - cd lang/py
         - ./build.sh clean test
 
     - name: Ruby
@@ -89,6 +101,11 @@ matrix:
         - ./build.sh clean test
 
     - name: Rust
+      addons:
+        apt:
+          update: true
+          packages:
+            - cargo
       script:
         - cd lang/rust
         - ./build.sh clean test
