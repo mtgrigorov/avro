@@ -42,7 +42,15 @@ matrix:
           update: true
           packages:
             - openjdk-8-jdk
-            - maven
+            - wget
+      install:
+        - export MAVEN_VERSION="3.8.3"
+        - wget https://dlcdn.apache.org/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz
+        - tar zxvf apache-maven-$MAVEN_VERSION-bin.tar.gz
+        - export M2_HOME=$PWD/apache-maven-$MAVEN_VERSION
+        - export PATH="$M2_HOME/bin:$PATH"
+      before_script:
+        - mvn -version
       script:
         - cd lang/java
         - ./build.sh clean test
