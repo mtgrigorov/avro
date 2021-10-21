@@ -59,9 +59,9 @@ matrix:
         - ./build.sh clean test
 
     - name: C
-        script:
-          - cd lang/c
-          - ./build.sh clean test
+      script:
+        - cd lang/c
+        - ./build.sh clean test
 
     - name: C++
       script:
@@ -103,3 +103,5 @@ matrix:
         - cd lang/php
         - ./build.sh clean test
 
+before_install:
+  - lscpu
