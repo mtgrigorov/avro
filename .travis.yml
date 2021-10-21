@@ -98,6 +98,8 @@ matrix:
         - cd lang/perl
         - ./build.sh clean test
 
+    - name: PHP
+      script:
+        - cd lang/php
+        - ./build.sh clean test
 
-before_install:
-  - lscpu
