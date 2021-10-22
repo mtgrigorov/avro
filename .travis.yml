@@ -81,16 +81,29 @@ matrix:
         - ./build.sh clean test
 
     - name: C#
+      addons:
+        apt:
+          update: true
+          packages:
+            - wget
       install:
-        - sudo snap install dotnet-sdk --classic --channel=5.0/edge
-        - sudo snap alias dotnet-sdk.dotnet dotnet
+        - wget https://dot.net/v1/dotnet-install.sh
+        - bash dotnet-install.sh
       before_script:
-        - export DOTNET_ROOT=/snap/dotnet-sdk/current
+        - export PATH=/root/.dotnet:$PATH
+        - dotnet --list-sdks
       script:
         - cd lang/csharp
         - ./build.sh clean test
 
     - name: Python
+      addons:
+        apt:
+          update: true
+          packages:
+            - python3-pip
+      install:
+        - pip install tox
       script:
         - cd lang/py
         - ./build.sh clean test
