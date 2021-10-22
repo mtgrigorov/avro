@@ -48,7 +48,6 @@ matrix:
         - wget https://dlcdn.apache.org/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz
         - tar zxvf apache-maven-$MAVEN_VERSION-bin.tar.gz
         - export M2_HOME=$PWD/apache-maven-$MAVEN_VERSION
-        - export MAVEN_ARGS="--no-transfer-progress --quiet --fail-fast"
         - export JAVA_HOME="/usr/lib/jvm/java-8-openjdk-arm64"
         - export PATH="$M2_HOME/bin:$JAVA_HOME/bin:$PATH"
       before_script:
@@ -76,6 +75,7 @@ matrix:
           update: true
           packages:
             - cmake
+            - libboost-all-dev
       script:
         - cd lang/c++
         - ./build.sh clean test
@@ -90,7 +90,7 @@ matrix:
         - wget https://dot.net/v1/dotnet-install.sh
         - bash dotnet-install.sh
       before_script:
-        - export PATH=/root/.dotnet:$PATH
+        - export PATH=$HOME/.dotnet:$PATH
         - dotnet --list-sdks
       script:
         - cd lang/csharp
@@ -129,6 +129,23 @@ matrix:
         - ./build.sh clean test
 
     - name: PHP
+      addons:
+        apt:
+          update: true
+          packages:
+            - wget
+            - php
+            - php-xml
+            - php-mbstring
+            - php-curl
+            - php-gmp
+            - php-bz2
+            - unzip
+      install:
+        - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+        - php -r "if (hash_file('sha384', 'composer-setup.php') === '906a84df04cea2aa72f40b5f787e49f22d4c2f19492ac310e8cba5b96ac8b64115ac402c8cd292b8a03482574915d1a8') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+        - php composer-setup.php
+        - php -r "unlink('composer-setup.php');"
       script:
         - cd lang/php
         - ./build.sh clean test
