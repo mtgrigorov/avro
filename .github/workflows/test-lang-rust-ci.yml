@@ -32,7 +32,7 @@ defaults:
 
 jobs:
   ci:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, ARM64]
     strategy:
       matrix:
         rust:
